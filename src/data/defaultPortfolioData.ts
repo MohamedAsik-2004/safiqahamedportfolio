@@ -4,26 +4,26 @@ import type { PortfolioData } from '../types/portfolio';
 export const defaultPortfolioData: PortfolioData = {
   adminPin: '1234',
   hero: {
-    name: 'LOHITHA',
+    name: 'SAFIQ AHAMED J',
     headlineLine1: 'I BUILD',
     headlineLine2: 'DIGITAL',
     headlineLine3: 'EXPERIENCES',
-    rolesText: 'FULL STACK DEVELOPER • UI/UX DESIGNER • DATA SCIENCE',
+    rolesText: 'GRAPHIC DESIGNER • UI/UX DESIGNER • 3D MODELING DESIGNER',
     descriptionParagraph1: 'I turn bold ideas into seamless digital experiences.',
     descriptionParagraph2: 'Where frontend meets powerful backend, and code transforms vision into impact.',
     exploreWorkText: 'EXPLORE MY WORK',
-    resumeUrl: '/resume.pdf',
+    resumeUrl: 'https://go.fliplink.me/view/08A0FA05-B268-46A3-9223-8F5A16AFFB5A',
     quoteTitle: 'CODE IS MY CRAFT.',
     quoteSubtitle: 'IMPACT IS MY GOAL.',
-    watermarkUrl: '',
+    watermarkUrl: 'https://kommodo.ai/i/sBpkyLBNuWavQPrIjMsx',
     heroVideoUrl: '/videos/hero.mp4',
   },
   about: {
     eyebrow: '01 / ABOUT ME',
     headlineLine1: "I DON'T JUST WRITE CODE.",
     headlineLine2: "I BUILD WHAT'S NEXT.",
-    bioName: 'Damisetti Shamya Lohitha',
-    bioRole: 'Full Stack Developer & Data Science Student',
+    bioName: 'SAFIQ AHAMED J',
+    bioRole: 'Graphice Designer & 3D Modeling',
     bioDescription:
       "I'm Damisetti Shamya Lohitha, a Full Stack Developer and Data Science student specializing in building scalable web architectures, AI-integrated platforms, and refined digital experiences. With a strong algorithmic foundation and a focus on clean engineering, I turn complex requirements into impactful products.",
     stats: [
@@ -227,7 +227,7 @@ export const defaultPortfolioData: PortfolioData = {
       'Have an ambitious system to architect, an engineering opportunity, or a collaborative inquiry? Send a direct dispatch below.',
     email: 'damisetti.lohitha@example.com',
     phone: '+91 9876543210',
-    location: 'Andhra Pradesh, India',
+    location: 'TAMIL NADE',
     socials: {
       github: 'https://github.com/lohithadamisetti123',
       linkedin: 'https://linkedin.com/in/lohithadamisetti',
