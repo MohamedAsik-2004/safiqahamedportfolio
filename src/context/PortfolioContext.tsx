@@ -12,7 +12,7 @@ import type {
 } from '../types/portfolio';
 import { defaultPortfolioData } from '../data/defaultPortfolioData';
 
-const STORAGE_KEY = 'CINEMATIC_PORTFOLIO_DATA_V1';
+const STORAGE_KEY = 'CINEMATIC_PORTFOLIO_DATA_V2';
 
 interface PortfolioContextType {
   data: PortfolioData;

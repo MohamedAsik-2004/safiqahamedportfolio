@@ -143,7 +143,7 @@ export const AboutSection: React.FC = () => {
             {/* Achievement Metrics Grid */}
             <motion.div 
               variants={fadeUpVariants}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 pb-2 border-t border-[#8C6D4F]/25"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 pb-6 border-t border-[#8C6D4F]/25"
             >
               {about.stats.map((stat, idx) => (
                 <div key={idx} className="flex flex-col">
@@ -160,6 +160,43 @@ export const AboutSection: React.FC = () => {
                   </span>
                 </div>
               ))}
+            </motion.div>
+
+            {/* Personal Details Badge Grid */}
+            <motion.div
+              variants={fadeUpVariants}
+              className="mt-4 p-5 bg-[#120F0C]/90 border border-[#8C6D4F]/30 rounded-xs backdrop-blur-md"
+            >
+              <h4 className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#D4AF37] mb-3 flex items-center space-x-2">
+                <span>❖</span>
+                <span>PERSONAL PROFILE DETAILS</span>
+              </h4>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs font-light text-[#B3A497]" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                <div>
+                  <span className="block text-[9px] uppercase tracking-wider text-[#8C6D4F]">Father's Name</span>
+                  <span className="text-white font-medium">Jahabar Sali S</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] uppercase tracking-wider text-[#8C6D4F]">Date of Birth</span>
+                  <span className="text-white font-medium">16/07/2002</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] uppercase tracking-wider text-[#8C6D4F]">Gender & Blood</span>
+                  <span className="text-white font-medium">Male (B+)</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] uppercase tracking-wider text-[#8C6D4F]">Languages</span>
+                  <span className="text-[#D4AF37] font-medium">Tamil & English</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] uppercase tracking-wider text-[#8C6D4F]">Passport No</span>
+                  <span className="text-white font-mono font-medium">H3631859</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] uppercase tracking-wider text-[#8C6D4F]">Nationality</span>
+                  <span className="text-white font-medium">Indian</span>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
 
