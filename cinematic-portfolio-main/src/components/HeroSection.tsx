@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import watermarkImg from '../assets/watermark.png';
@@ -41,6 +41,9 @@ export const HeroSection: React.FC = () => {
   const { hero } = data;
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
   const [isHovered, setIsHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const videoSrc = hero.heroVideoUrl || '/videos/hero.mp4';
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -49,6 +52,19 @@ export const HeroSection: React.FC = () => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  // Guarantee video reloads and plays when source changes (Data URL or video file)
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.warn('Video autoplay prevented or loading:', err);
+        });
+      }
+    }
+  }, [videoSrc]);
 
   // Keyboard shortcut Ctrl+Shift+A for Admin Panel
   useEffect(() => {
@@ -82,13 +98,16 @@ export const HeroSection: React.FC = () => {
       {/* ================= 2. FIXED VIDEO LAYER ================= */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-black flex items-center justify-end">
         <video
+          ref={videoRef}
+          key={videoSrc}
+          src={videoSrc}
           autoPlay
           muted
           loop
           playsInline
           className="h-screen w-auto max-w-none object-contain origin-right scale-95 md:scale-[0.98] lg:scale-100"
         >
-          <source src={hero.heroVideoUrl || '/videos/hero.mp4'} type="video/mp4" />
+          <source src={videoSrc} />
         </video>
 
         {/* Seamless Soft Left Edge Blend */}

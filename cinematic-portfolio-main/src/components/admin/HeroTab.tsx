@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
 
 export const HeroTab: React.FC = () => {
   const { data, updateHero } = usePortfolio();
   const [form, setForm] = useState(data.hero);
   const [savedMessage, setSavedMessage] = useState('');
+
+  // Sync form state when data.hero updates from context/localStorage
+  useEffect(() => {
+    if (data.hero) {
+      setForm(data.hero);
+    }
+  }, [data.hero]);
 
   const handleChange = (field: keyof typeof form, val: string) => {
     setForm((prev) => ({ ...prev, [field]: val }));
@@ -15,7 +22,8 @@ export const HeroTab: React.FC = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       if (e.target?.result) {
-        handleChange(field, e.target.result as string);
+        const resultStr = e.target.result as string;
+        handleChange(field, resultStr);
       }
     };
     reader.readAsDataURL(file);
