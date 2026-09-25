@@ -23,6 +23,17 @@ export const ProjectsTab: React.FC = () => {
   const [tagInput, setTagInput] = useState('');
   const [savedMsg, setSavedMsg] = useState('');
 
+  const handleImageUpload = (file: File) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        setForm((prev) => ({ ...prev, imageUrl: e.target?.result as string }));
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   const startEdit = (project: Project) => {
     setEditingId(project.id);
     setIsAdding(false);
@@ -94,7 +105,7 @@ export const ProjectsTab: React.FC = () => {
           <h3 className="text-xl font-light text-white uppercase" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             PROJECTS ARCHIVE MANAGER
           </h3>
-          <p className="text-xs text-[#A8988B]">Add, modify, and delete featured portfolio projects.</p>
+          <p className="text-xs text-[#A8988B]">Add, modify, upload photos, and delete featured portfolio projects.</p>
         </div>
         {!isAdding && !editingId && (
           <button
@@ -163,17 +174,43 @@ export const ProjectsTab: React.FC = () => {
               />
             </div>
 
-            <div className="md:col-span-2">
-              <label className="block text-[10px] tracking-widest text-[#8C6D4F] uppercase font-semibold mb-1">
-                COVER IMAGE URL / PATH
+            {/* Project Photo Upload & URL */}
+            <div className="md:col-span-2 space-y-2">
+              <label className="block text-[10px] tracking-widest text-[#8C6D4F] uppercase font-semibold">
+                COVER IMAGE / PHOTO (UPLOAD OR ENTER URL)
               </label>
-              <input
-                type="text"
-                value={form.imageUrl}
-                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
-                placeholder="https://..."
-                className="w-full bg-black border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none"
-              />
+              <div className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  value={form.imageUrl}
+                  onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+                  placeholder="https://... or Data URL"
+                  className="flex-grow bg-black border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none"
+                />
+                <label className="cursor-pointer px-3 py-2 border border-[#D4AF37] bg-[#D4AF37]/10 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black text-[10px] font-semibold tracking-wider uppercase transition-all rounded-xs whitespace-nowrap">
+                  📷 BROWSE PHOTO
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0])}
+                  />
+                </label>
+              </div>
+
+              {/* Photo Preview Thumbnail */}
+              {form.imageUrl && (
+                <div className="mt-2 relative rounded-xs overflow-hidden border border-[#8C6D4F]/40 h-28 bg-black/80 flex items-center justify-center p-1">
+                  <img src={form.imageUrl} alt="Project cover preview" className="h-full object-contain" />
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, imageUrl: '' })}
+                    className="absolute top-2 right-2 bg-black/80 text-red-400 hover:text-red-300 text-xs px-2 py-0.5 border border-red-900/50 rounded-xs"
+                  >
+                    REMOVE ✕
+                  </button>
+                </div>
+              )}
             </div>
 
             <div>

@@ -10,7 +10,7 @@ export const HeroTab: React.FC = () => {
     setForm((prev) => ({ ...prev, [field]: val }));
   };
 
-  const handleFileUpload = (file: File, field: 'heroVideoUrl' | 'watermarkUrl') => {
+  const handleFileUpload = (file: File, field: 'heroVideoUrl' | 'watermarkUrl' | 'resumeUrl') => {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -35,7 +35,7 @@ export const HeroTab: React.FC = () => {
           <h3 className="text-xl font-light text-white uppercase" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             HERO SECTION CONFIGURATION
           </h3>
-          <p className="text-xs text-[#A8988B]">Manage main landing header, video/image media, headlines, and call-to-actions.</p>
+          <p className="text-xs text-[#A8988B]">Manage main landing header, video/image media, headlines, resume, and call-to-actions.</p>
         </div>
         <button
           type="submit"
@@ -54,14 +54,14 @@ export const HeroTab: React.FC = () => {
       {/* Media Upload Section */}
       <div className="p-5 bg-black/60 border border-[#D4AF37]/30 rounded-sm space-y-4">
         <h4 className="text-xs font-semibold tracking-widest text-[#D4AF37] uppercase border-b border-[#8C6D4F]/20 pb-2">
-          HERO MEDIA ASSETS (VIDEO & WATERMARK PHOTO)
+          HERO MEDIA & RESUME ASSETS (UPLOAD OR ENTER URL)
         </h4>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Hero Video Upload & URL */}
           <div className="space-y-2">
             <label className="block text-[10px] tracking-widest text-[#8C6D4F] uppercase font-semibold">
-              HERO BACKGROUND VIDEO (UPLOAD OR URL)
+              HERO BACKGROUND VIDEO
             </label>
             <div className="flex items-center space-x-2">
               <input
@@ -100,7 +100,7 @@ export const HeroTab: React.FC = () => {
           {/* Watermark / Background Image Upload */}
           <div className="space-y-2">
             <label className="block text-[10px] tracking-widest text-[#8C6D4F] uppercase font-semibold">
-              HERO WATERMARK / OVERLAY IMAGE (UPLOAD OR URL)
+              HERO WATERMARK / OVERLAY IMAGE
             </label>
             <div className="flex items-center space-x-2">
               <input
@@ -132,6 +132,59 @@ export const HeroTab: React.FC = () => {
                 >
                   REMOVE ✕
                 </button>
+              </div>
+            )}
+          </div>
+
+          {/* Resume File Upload */}
+          <div className="md:col-span-2 space-y-2 pt-2 border-t border-[#8C6D4F]/20">
+            <label className="block text-[10px] tracking-widest text-[#8C6D4F] uppercase font-semibold">
+              RESUME FILE (UPLOAD PDF / DOC / IMAGE OR ENTER URL)
+            </label>
+            <div className="flex items-center space-x-2">
+              <input
+                type="text"
+                value={form.resumeUrl || ''}
+                onChange={(e) => handleChange('resumeUrl', e.target.value)}
+                placeholder="/resume.pdf or Data URL..."
+                className="flex-grow bg-black/80 border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none rounded-xs"
+              />
+              <label className="cursor-pointer px-4 py-2 border border-[#D4AF37] bg-[#D4AF37]/10 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black text-[10px] font-semibold tracking-wider uppercase transition-all rounded-xs whitespace-nowrap">
+                📄 UPLOAD RESUME
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx,image/*"
+                  className="hidden"
+                  onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'resumeUrl')}
+                />
+              </label>
+            </div>
+
+            {form.resumeUrl && (
+              <div className="mt-2 p-3 bg-black/80 border border-[#D4AF37]/40 rounded-xs flex items-center justify-between">
+                <div className="flex items-center space-x-2 text-xs text-[#EAD8C7]">
+                  <span>📄</span>
+                  <span className="text-[#D4AF37] font-mono truncate max-w-xs sm:max-w-md">
+                    {form.resumeUrl.startsWith('data:') ? 'Custom Uploaded Resume File (Data URL)' : form.resumeUrl}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <a
+                    href={form.resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] text-[#D4AF37] hover:underline uppercase"
+                  >
+                    VIEW / PREVIEW ↗
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => handleChange('resumeUrl', '')}
+                    className="text-red-400 hover:text-red-300 text-xs px-2"
+                  >
+                    REMOVE ✕
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -211,17 +264,6 @@ export const HeroTab: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-[10px] tracking-widest text-[#8C6D4F] uppercase font-semibold mb-1">RESUME URL / FILE PATH</label>
-          <input
-            type="text"
-            value={form.resumeUrl || ''}
-            onChange={(e) => handleChange('resumeUrl', e.target.value)}
-            placeholder="/resume.pdf or https://..."
-            className="w-full bg-black/70 border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none rounded-xs"
-          />
-        </div>
-
-        <div>
           <label className="block text-[10px] tracking-widest text-[#8C6D4F] uppercase font-semibold mb-1">QUOTE TITLE</label>
           <input
             type="text"
@@ -231,7 +273,7 @@ export const HeroTab: React.FC = () => {
           />
         </div>
 
-        <div className="md:col-span-2">
+        <div>
           <label className="block text-[10px] tracking-widest text-[#8C6D4F] uppercase font-semibold mb-1">QUOTE SUBTITLE</label>
           <input
             type="text"

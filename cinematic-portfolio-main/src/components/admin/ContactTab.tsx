@@ -1,39 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
 
 export const ContactTab: React.FC = () => {
   const { data, updateContact } = usePortfolio();
-  const [form, setForm] = useState(data.contact);
+  const [form, setForm] = useState(data.contact || {
+    email: '',
+    location: '',
+    availabilityStatus: '',
+    heading: '',
+    socials: []
+  });
   const [savedMsg, setSavedMsg] = useState('');
+
+  // Keep local form in sync with global portfolio context
+  useEffect(() => {
+    if (data.contact) {
+      setForm(data.contact);
+    }
+  }, [data.contact]);
 
   const handleChange = (field: keyof typeof form, val: any) => {
     setForm((prev) => ({ ...prev, [field]: val }));
   };
 
+  const socialsList = Array.isArray(form.socials)
+    ? form.socials
+    : Object.entries(form.socials || {}).map(([name, url]) => ({ name, url: url as string }));
+
   const handleSocialChange = (index: number, field: 'name' | 'url', val: string) => {
-    const updatedSocials = [...form.socials];
+    const updatedSocials = [...socialsList];
     updatedSocials[index] = { ...updatedSocials[index], [field]: val };
     setForm((prev) => ({ ...prev, socials: updatedSocials }));
   };
 
   const addSocial = () => {
-    setForm((prev) => ({
-      ...prev,
-      socials: [...prev.socials, { name: 'Twitter', url: 'https://twitter.com' }],
-    }));
+    const updatedSocials = [...socialsList, { name: 'GitHub', url: 'https://github.com' }];
+    setForm((prev) => ({ ...prev, socials: updatedSocials }));
   };
 
   const removeSocial = (index: number) => {
-    setForm((prev) => ({
-      ...prev,
-      socials: prev.socials.filter((_, i) => i !== index),
-    }));
+    const updatedSocials = socialsList.filter((_, i) => i !== index);
+    setForm((prev) => ({ ...prev, socials: updatedSocials }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    updateContact(form);
-    setSavedMsg('Contact information updated!');
+    updateContact({
+      ...form,
+      socials: socialsList
+    });
+    setSavedMsg('Contact & Social information updated successfully!');
     setTimeout(() => setSavedMsg(''), 3000);
   };
 
@@ -44,11 +60,11 @@ export const ContactTab: React.FC = () => {
           <h3 className="text-xl font-light text-white uppercase" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             CONTACT & SOCIAL CONFIGURATION
           </h3>
-          <p className="text-xs text-[#A8988B]">Manage contact email, location, status, and social media handles.</p>
+          <p className="text-xs text-[#A8988B]">Manage contact email, location, status, and social directory links.</p>
         </div>
         <button
           type="submit"
-          className="px-6 py-2.5 border border-[#D4AF37] bg-[#D4AF37] text-black text-xs font-semibold uppercase hover:bg-transparent hover:text-[#D4AF37]"
+          className="px-6 py-2.5 border border-[#D4AF37] bg-[#D4AF37] text-black text-xs font-semibold uppercase hover:bg-transparent hover:text-[#D4AF37] transition-all"
         >
           SAVE CHANGES
         </button>
@@ -67,9 +83,10 @@ export const ContactTab: React.FC = () => {
           </label>
           <input
             type="email"
-            value={form.email}
+            required
+            value={form.email || ''}
             onChange={(e) => handleChange('email', e.target.value)}
-            className="w-full bg-black/70 border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none"
+            className="w-full bg-black/70 border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none rounded-xs"
           />
         </div>
 
@@ -79,9 +96,10 @@ export const ContactTab: React.FC = () => {
           </label>
           <input
             type="text"
-            value={form.location}
+            value={form.location || ''}
             onChange={(e) => handleChange('location', e.target.value)}
-            className="w-full bg-black/70 border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none"
+            placeholder="City, Country"
+            className="w-full bg-black/70 border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none rounded-xs"
           />
         </div>
 
@@ -91,10 +109,10 @@ export const ContactTab: React.FC = () => {
           </label>
           <input
             type="text"
-            value={form.availabilityStatus}
+            value={form.availabilityStatus || ''}
             onChange={(e) => handleChange('availabilityStatus', e.target.value)}
-            placeholder="Available for Q3 Projects"
-            className="w-full bg-black/70 border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none"
+            placeholder="Available for Projects"
+            className="w-full bg-black/70 border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none rounded-xs"
           />
         </div>
 
@@ -104,9 +122,10 @@ export const ContactTab: React.FC = () => {
           </label>
           <textarea
             rows={3}
-            value={form.heading}
+            value={form.heading || ''}
             onChange={(e) => handleChange('heading', e.target.value)}
-            className="w-full bg-black/70 border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none resize-none"
+            placeholder="Have an ambitious system to architect..."
+            className="w-full bg-black/70 border border-[#8C6D4F]/30 focus:border-[#D4AF37] px-3 py-2 text-xs text-white outline-none resize-none rounded-xs"
           />
         </div>
       </div>
@@ -118,28 +137,28 @@ export const ContactTab: React.FC = () => {
           <button
             type="button"
             onClick={addSocial}
-            className="px-3 py-1 border border-[#8C6D4F]/50 text-[10px] tracking-widest text-[#EAD8C7] hover:border-[#D4AF37] uppercase"
+            className="px-3 py-1 border border-[#8C6D4F]/50 text-[10px] tracking-widest text-[#EAD8C7] hover:border-[#D4AF37] uppercase rounded-xs"
           >
             + ADD SOCIAL LINK
           </button>
         </div>
 
         <div className="space-y-3">
-          {form.socials.map((social, idx) => (
-            <div key={idx} className="p-3 bg-black/50 border border-[#8C6D4F]/20 flex items-center gap-3">
+          {socialsList.map((social, idx) => (
+            <div key={idx} className="p-3 bg-black/50 border border-[#8C6D4F]/20 flex items-center gap-3 rounded-xs">
               <input
                 type="text"
-                value={social.name}
+                value={social.name || ''}
                 onChange={(e) => handleSocialChange(idx, 'name', e.target.value)}
-                placeholder="Platform Name (GitHub)"
-                className="w-36 bg-black border border-[#8C6D4F]/30 px-2 py-1 text-xs text-white outline-none"
+                placeholder="Platform (e.g. GitHub)"
+                className="w-36 bg-black border border-[#8C6D4F]/30 px-2 py-1 text-xs text-white outline-none rounded-xs"
               />
               <input
                 type="text"
-                value={social.url}
+                value={social.url || ''}
                 onChange={(e) => handleSocialChange(idx, 'url', e.target.value)}
-                placeholder="https://..."
-                className="flex-grow bg-black border border-[#8C6D4F]/30 px-2 py-1 text-xs text-[#D4AF37] outline-none"
+                placeholder="https://github.com/username"
+                className="flex-grow bg-black border border-[#8C6D4F]/30 px-2 py-1 text-xs text-[#D4AF37] outline-none rounded-xs"
               />
               <button
                 type="button"
