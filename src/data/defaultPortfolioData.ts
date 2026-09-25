@@ -43,6 +43,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         '3D modeling and layout of equipment (pumps, heat exchangers, vessels) and pipe rack piping for ABK (LQ-01, LQ-02, KPP & NKPP) project under ABU AL BUKHOOSH (TABK).',
       year: '2023 - PRESENT',
+      imageUrl: '/projects/p1.png',
       tech: ['E3D', 'AutoCAD Plant 3D', 'Navisworks', 'P&ID Diagrams', 'M.T.O Generation', 'Isometric Extraction'],
       metrics: [
         { label: 'CLIENT', value: 'ABU AL BUKHOOSH (TABK)' },
@@ -58,6 +59,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'Extraction of isometric drawings and General Arrangement Drawings (GAD), 3D modeling of piping supports per standards, and stress engineer updates for ARA PETROLEUM.',
       year: '2022 - 2023',
+      imageUrl: '/projects/p2.png',
       tech: ['AutoCAD', 'Navis Freedom', 'Piping Support Standards', 'GAD Extraction', 'Stress Analysis'],
       metrics: [
         { label: 'CLIENT', value: 'ARA PETROLEUM' },
@@ -73,6 +75,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'Precision 3D modeling of pumps, heat exchangers, and horizontal vessels according to vendor drawings, nozzle orientation, and plot plan constraints.',
       year: '2023',
+      imageUrl: '/projects/p3.png',
       tech: ['AutoCAD Plant 3D', 'E3D', 'SolidWorks', 'Plot Plan Layout', 'Nozzle Orientation'],
       metrics: [
         { label: 'ACCURACY', value: '100% Vendor Alignment' },
@@ -88,6 +91,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'Preparation and 3D modeling of multi-tier pipe rack piping, material take-off (M.T.O.) generation, and isometric drawing extraction for complex process plants.',
       year: '2023',
+      imageUrl: '/projects/p4.png',
       tech: ['E3D', 'AutoCAD Plant 3D', 'MS Excel', 'MTO Generation', 'Clash Review'],
       metrics: [
         { label: 'DELIVERABLE', value: 'Isometric & MTO' },
