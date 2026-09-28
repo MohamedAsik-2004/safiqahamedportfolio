@@ -32,7 +32,7 @@ export const defaultPortfolioData: PortfolioData = {
       { value: '100%', label: 'P&ID & M.T.O Precision' },
       { value: 'Oil & Gas', label: 'Domain Expertise' },
     ],
-    aboutImageUrl: '/c:\Users\asika\Downloads\file_0000000009c87206b51bdc424b955a68.png',
+    aboutImageUrl: '/file_0000000009c87206b51bdc424b955a68.png',
   },
   projects: [
     {
